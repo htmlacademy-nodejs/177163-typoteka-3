@@ -1,5 +1,6 @@
 'use strict';
 
+const chalk = require(`chalk`);
 const {Cli} = require(`./cli`);
 
 const DEFAULT_COMMAND = `--help`;
@@ -8,7 +9,7 @@ const userArguments = process.argv.slice(2);
 const [userCommand] = userArguments;
 
 process.on(`uncaughtException`, (err) => {
-  console.error(err);
+  console.error(chalk.red(err));
   process.exit(1);
 });
 

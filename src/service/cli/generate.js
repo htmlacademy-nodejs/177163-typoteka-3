@@ -8,6 +8,7 @@ const {
 
 const {TITLES, SENTENCES, CATEGORIES} = require(`./samples`);
 const {CountRequirements, MONTH_INTERVAL, FILE_NAME} = require(`./constants`);
+const chalk = require(`chalk`);
 
 const getTwoDigitsStr = (num) => num > 9 ? num : `0${num}`;
 
@@ -40,7 +41,7 @@ const generateOffers = (count) => (
 
 module.exports = {
   name: `--generate`,
-  run(args) {
+  async run(args) {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || CountRequirements.DEFAULT;
     if (countOffer > CountRequirements.MAX) {
@@ -48,11 +49,11 @@ module.exports = {
       return;
     }
     const content = JSON.stringify(generateOffers(countOffer), null, 4);
-    fs.writeFile(FILE_NAME, content, (err) => {
-      if (err) {
-        throw new Error(`Can't write data to file...`);
-      }
-      console.info(`Operation success. File created.`);
-    });
+    try {
+      await fs.writeFile(FILE_NAME, content);
+      console.info(chalk.green(`Operation success. File created.`));
+    } catch (err) {
+      throw new Error(`Can't write data to file...`);
+    }
   },
 };

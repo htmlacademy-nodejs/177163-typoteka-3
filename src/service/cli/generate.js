@@ -1,10 +1,10 @@
 'use strict';
 
+const fs = require(`fs`);
 const {
   getRandomInt,
   getRandomItems,
 } = require(`../../utils`);
-const fs = require(`fs`);
 
 const {TITLES, SENTENCES, CATEGORIES} = require(`./samples`);
 const {CountRequirements, MONTH_INTERVAL, FILE_NAME} = require(`./constants`);
@@ -47,7 +47,7 @@ module.exports = {
       console.log(CountRequirements.MAX_MESSAGE);
       return;
     }
-    const content = JSON.stringify(generateOffers(countOffer));
+    const content = JSON.stringify(generateOffers(countOffer), null, 4);
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
         throw new Error(`Can't write data to file...`);

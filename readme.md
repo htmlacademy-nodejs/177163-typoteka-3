@@ -1,7 +1,7 @@
 # Личный проект «Типотека» [![Build status][travis-image]][travis-url]
 
 * Студент: [Екатерина Медведева](https://up.htmlacademy.ru/nodejs/3/user/177163).
-* Наставник: [Артем Брилев](https://htmlacademy.ru/profile/id1126425).
+* Наставник: [Никита Куцелай](https://htmlacademy.ru/profile/id32750).
 
 ---
 

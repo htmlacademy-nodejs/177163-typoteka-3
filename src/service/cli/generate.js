@@ -6,8 +6,25 @@ const {
   getRandomInt,
   getRandomItems,
 } = require(`../../utils`);
-const {TITLES, SENTENCES, CATEGORIES} = require(`./samples`);
-const {CountRequirements, MONTH_INTERVAL, FILE_NAME} = require(`./constants`);
+
+const {
+  CountRequirements,
+  MONTH_INTERVAL,
+  FILE_NAME,
+  FILE_CATEGORIES_PATH,
+  FILE_SENTENCES_PATH,
+  FILE_TITLES_PATH,
+} = require(`./constants`);
+
+const readContent = async (filePath) => {
+  try {
+    const content = await fs.readFile(filePath, `utf8`);
+    return content.split(`\n`);
+  } catch (err) {
+    console.error(chalk.red(err));
+    return [];
+  }
+};
 
 const getTwoDigitsStr = (num) => num > 9 ? num : `0${num}`;
 
@@ -28,12 +45,12 @@ const getRandomDate = () => {
   return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 };
 
-const generateOffers = (count) => (
+const generateOffers = (count, titles, sentences, categories) => (
   Array(count).fill({}).map(() => ({
-    category: getRandomItems(CATEGORIES, getRandomInt(1, CATEGORIES.length - 1)),
-    title: TITLES[getRandomInt(0, TITLES.length - 1)],
-    announce: getRandomItems(SENTENCES, getRandomInt(1, 5)).join(` `),
-    fullText: getRandomItems(SENTENCES, getRandomInt(1, 5)).join(` `),
+    category: getRandomItems(categories, getRandomInt(1, categories.length - 1)),
+    title: titles[getRandomInt(0, titles.length - 1)],
+    announce: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
+    fullText: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
     createdDate: getRandomDate(),
   }))
 );
@@ -41,13 +58,19 @@ const generateOffers = (count) => (
 module.exports = {
   name: `--generate`,
   async run(args) {
+    const sentences = await readContent(FILE_SENTENCES_PATH);
+    const categories = await readContent(FILE_CATEGORIES_PATH);
+    const titles = await readContent(FILE_TITLES_PATH);
+
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || CountRequirements.DEFAULT;
     if (countOffer > CountRequirements.MAX) {
       console.log(CountRequirements.MAX_MESSAGE);
       return;
     }
-    const content = JSON.stringify(generateOffers(countOffer), null, 4);
+    const content = JSON.stringify(
+      generateOffers(countOffer, titles, sentences, categories),
+      null,4);
     try {
       await fs.writeFile(FILE_NAME, content);
       console.info(chalk.green(`Operation success. File created.`));

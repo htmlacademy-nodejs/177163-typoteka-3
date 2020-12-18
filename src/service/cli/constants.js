@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require(`path`);
+const resolvePath = require(`path`).resolve;
 
 const CountRequirements = {
   DEFAULT: 1,
@@ -10,10 +10,10 @@ const CountRequirements = {
 
 const MONTH_INTERVAL = 3;
 
-const FILE_NAME = path.resolve(path.join(__dirname, `../../../mocks.json`));
-const FILE_SENTENCES_PATH = `./data/sentences.txt`;
-const FILE_TITLES_PATH = `./data/titles.txt`;
-const FILE_CATEGORIES_PATH = `./data/categories.txt`;
+const FILE_NAME = resolvePath(__dirname, `../../../mocks.json`);
+const FILE_SENTENCES_PATH = resolvePath(__dirname, `../../../data/sentences.txt`);
+const FILE_TITLES_PATH = resolvePath(__dirname, `../../../data/titles.txt`);
+const FILE_CATEGORIES_PATH = resolvePath(__dirname, `../../../data/categories.txt`);
 
 module.exports = {
   CountRequirements,

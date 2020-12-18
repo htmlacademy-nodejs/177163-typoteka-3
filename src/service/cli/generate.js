@@ -1,14 +1,13 @@
 'use strict';
 
-const fs = require(`fs`);
+const fs = require(`fs`).promises;
+const chalk = require(`chalk`);
 const {
   getRandomInt,
   getRandomItems,
 } = require(`../../utils`);
-
 const {TITLES, SENTENCES, CATEGORIES} = require(`./samples`);
 const {CountRequirements, MONTH_INTERVAL, FILE_NAME} = require(`./constants`);
-const chalk = require(`chalk`);
 
 const getTwoDigitsStr = (num) => num > 9 ? num : `0${num}`;
 
@@ -53,7 +52,7 @@ module.exports = {
       await fs.writeFile(FILE_NAME, content);
       console.info(chalk.green(`Operation success. File created.`));
     } catch (err) {
-      throw new Error(`Can't write data to file...`);
+      console.error(chalk.red(`Can't write data to file...`));
     }
   },
 };

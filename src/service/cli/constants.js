@@ -15,14 +15,6 @@ const FILE_SENTENCES_PATH = resolvePath(__dirname, `../../../data/sentences.txt`
 const FILE_TITLES_PATH = resolvePath(__dirname, `../../../data/titles.txt`);
 const FILE_CATEGORIES_PATH = resolvePath(__dirname, `../../../data/categories.txt`);
 
-const HttpCode = {
-  OK: 200,
-  NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500,
-  FORBIDDEN: 403,
-  UNAUTHORIZED: 401,
-};
-
 const DEFAULT_PORT = 3000;
 
 module.exports = {
@@ -32,6 +24,5 @@ module.exports = {
   FILE_SENTENCES_PATH,
   FILE_TITLES_PATH,
   FILE_CATEGORIES_PATH,
-  HttpCode,
   DEFAULT_PORT,
 };

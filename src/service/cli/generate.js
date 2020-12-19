@@ -70,8 +70,8 @@ module.exports = {
         return;
       }
       const content = JSON.stringify(
-        generateOffers(countOffer, titles, sentences, categories),
-        null, 4);
+          generateOffers(countOffer, titles, sentences, categories),
+          null, 4);
       await fs.writeFile(FILE_NAME, content);
       console.info(chalk.green(`Operation success. File created.`));
     } catch (err) {

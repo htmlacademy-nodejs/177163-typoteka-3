@@ -16,9 +16,9 @@ app.use(`/my`, myRouter);
 app.use(`/articles`, articlesRouter);
 
 
-app.listen(PORT).on(`listening`, (err) => {
+app.listen(PORT, (err) => {
   if (err) {
-    return console.error(`Ошибка при создании сервера`, err);
+    return console.error(`An error occured on server creation`, err);
   }
-  return console.info(chalk.green(`Ожидаю соединений на ${PORT}`));
+  return console.info(chalk.green(`Listening to connections on ${PORT}`));
 });

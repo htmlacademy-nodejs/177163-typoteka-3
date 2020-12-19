@@ -9,11 +9,8 @@ html(lang='ru')
     link(rel='preload' href='./fonts/Inter-Regular.woff2' as='font' crossorigin='anonymous')
     link(rel='preload' href='./fonts/Inter-Medium.woff2' as='font' crossorigin='anonymous')
     link(rel='preload' href='./fonts/SFProDisplay-Regular.woff2' as='font' crossorigin='anonymous')
-    link(rel='stylesheet' href='css/style.min.css')
+    link(rel='stylesheet' href='/css/style.min.css')
   body
-    block wrapper
-      block header
-      block content
-      include partials/footer.pug
+    block content
     script(src='js/vendor.js')
     script(src='js/main.js')

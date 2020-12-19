@@ -26,9 +26,12 @@ app.set(`views`, TEMPLATES_DIR);
 app.set(`view engine`, `pug`);
 
 app.use((req, res) => res.status(HttpCode.NOT_FOUND).render(`errors/404`));
-app.use((err, _req, res, _next) => res
+app.use((err, _req, res, _next) => {
+  console.log(err);
+  res
   .status(HttpCode.INTERNAL_SERVER_ERROR)
-  .render(`errors/500`));
+  .render(`errors/500`);
+});
 
   app.listen(PORT, (err) => {
     if (err) {

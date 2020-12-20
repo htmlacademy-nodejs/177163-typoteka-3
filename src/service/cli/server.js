@@ -14,7 +14,7 @@ const {
 const app = express();
 app.use(express.json());
 
-app.get(`/smth`, async (req, res) => {
+app.get(`/posts`, async (req, res) => {
   try {
     const fileContent = await fs.readFile(FILE_NAME);
     const mocks = JSON.parse(fileContent);

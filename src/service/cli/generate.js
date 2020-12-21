@@ -2,24 +2,26 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const {nanoid} = require(`nanoid`);
+const {
+  nanoid
+} = require(`nanoid`);
 const {
   getRandomInt,
   getRandomItems,
   shuffle,
 } = require(`../../utils`);
-
 const {
-  CountRequirements,
-  MONTH_INTERVAL,
   FILE_NAME,
-  FILE_CATEGORIES_PATH,
-  FILE_SENTENCES_PATH,
-  FILE_TITLES_PATH,
-  FILE_COMMENTS_PATH,
+  GenerateFileRequirements: {
+    DEFAULT_ARTICLES_COUNT,
+    MAX_ARTICLES_COUNT,
+    MAX_ARTICLES_MESSAGE,
+    MONTH_INTERVAL,
+    MAX_COMMENTS,
+  },
+  DataFilePath,
   MAX_ID_LENGTH,
-  MAX_COMMENTS,
-} = require(`./constants`);
+} = require(`../../constants`);
 
 const readContent = async (filePath) => {
   try {
@@ -54,8 +56,8 @@ const generateComments = (count, comments) => (
   Array(count).fill({}).map(() => ({
     id: nanoid(MAX_ID_LENGTH),
     text: shuffle(comments)
-    .slice(0, getRandomInt(1, 3))
-    .join(` `),
+      .slice(0, getRandomInt(1, 3))
+      .join(` `),
   }))
 );
 
@@ -76,16 +78,16 @@ module.exports = {
   async run(args) {
     try {
       const [sentences, categories, titles, comments] = await Promise.all([
-        readContent(FILE_SENTENCES_PATH),
-        readContent(FILE_CATEGORIES_PATH),
-        readContent(FILE_TITLES_PATH),
-        readContent(FILE_COMMENTS_PATH),
+        readContent(DataFilePath.SENTENCES),
+        readContent(DataFilePath.CATEGORIES),
+        readContent(DataFilePath.TITLES),
+        readContent(DataFilePath.COMMENTS),
       ]);
 
       const [count] = args;
-      const countOffer = Number.parseInt(count, 10) || CountRequirements.DEFAULT;
-      if (countOffer > CountRequirements.MAX) {
-        console.log(CountRequirements.MAX_MESSAGE);
+      const countOffer = Number.parseInt(count, 10) || DEFAULT_ARTICLES_COUNT;
+      if (countOffer > MAX_ARTICLES_COUNT) {
+        console.log(MAX_ARTICLES_MESSAGE);
         return;
       }
       const content = JSON.stringify(

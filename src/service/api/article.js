@@ -28,14 +28,8 @@ module.exports = (app, articleService, commentService) => {
       .json(article);
   });
 
-  route.put(`/:articleId`, articleValidator, (req, res) => {
+  route.put(`/:articleId`, [articleExists(articleService), articleValidator], (req, res) => {
     const {articleId} = req.params;
-    const existedArticle = articleService.findOne(articleId);
-
-    if (!existedArticle) {
-      return res.status(HttpCode.NOT_FOUND)
-        .json(`Not found with ${articleId}`);
-    }
 
     const updatedArticle = articleService.update(articleId, req.body);
     return res.status(HttpCode.OK)

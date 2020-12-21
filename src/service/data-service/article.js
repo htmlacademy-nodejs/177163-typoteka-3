@@ -29,8 +29,7 @@ class ArticleService {
 
   update(id, changedArticle) {
     const oldArticleIndex = this._articles.findIndex((it) => it.id === id);
-    const oldArticle = this._articles[oldArticleIndex];
-    const updatedArticle = {...oldArticle, ...changedArticle};
+    const updatedArticle = {...this._articles[oldArticleIndex], ...changedArticle};
     this._articles[oldArticleIndex] = updatedArticle;
     return updatedArticle;
   }

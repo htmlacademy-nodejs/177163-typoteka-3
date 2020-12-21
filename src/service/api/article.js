@@ -75,7 +75,7 @@ module.exports = (app, articleService, commentService) => {
     const {article} = res.locals;
     const comment = commentService.create(article, req.body);
 
-    return res.status(HttpCode.OK)
+    return res.status(HttpCode.CREATED)
       .json(comment);
   });
 

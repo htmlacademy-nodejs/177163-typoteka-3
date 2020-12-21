@@ -25,6 +25,7 @@ class ArticleService {
       id: nanoid(MAX_ID_LENGTH)
     };
     this._articles.push(newArticle);
+    return newArticle;
   }
 
   update(id, changedArticle) {

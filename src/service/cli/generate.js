@@ -2,9 +2,11 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
+const {nanoid} = require(`nanoid`);
 const {
   getRandomInt,
   getRandomItems,
+  shuffle,
 } = require(`../../utils`);
 
 const {
@@ -14,6 +16,9 @@ const {
   FILE_CATEGORIES_PATH,
   FILE_SENTENCES_PATH,
   FILE_TITLES_PATH,
+  FILE_COMMENTS_PATH,
+  MAX_ID_LENGTH,
+  MAX_COMMENTS,
 } = require(`./constants`);
 
 const readContent = async (filePath) => {
@@ -45,13 +50,24 @@ const getRandomDate = () => {
   return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 };
 
-const generateOffers = (count, titles, sentences, categories) => (
+const generateComments = (count, comments) => (
   Array(count).fill({}).map(() => ({
+    id: nanoid(MAX_ID_LENGTH),
+    text: shuffle(comments)
+    .slice(0, getRandomInt(1, 3))
+    .join(` `),
+  }))
+);
+
+const generateOffers = (count, titles, sentences, categories, comments) => (
+  Array(count).fill({}).map(() => ({
+    id: nanoid(MAX_ID_LENGTH),
     category: getRandomItems(categories, getRandomInt(1, categories.length - 1)),
     title: titles[getRandomInt(0, titles.length - 1)],
     announce: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
     fullText: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
     createdDate: getRandomDate(),
+    comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments),
   }))
 );
 
@@ -59,9 +75,12 @@ module.exports = {
   name: `--generate`,
   async run(args) {
     try {
-      const sentences = await readContent(FILE_SENTENCES_PATH);
-      const categories = await readContent(FILE_CATEGORIES_PATH);
-      const titles = await readContent(FILE_TITLES_PATH);
+      const [sentences, categories, titles, comments] = await Promise.all([
+        readContent(FILE_SENTENCES_PATH),
+        readContent(FILE_CATEGORIES_PATH),
+        readContent(FILE_TITLES_PATH),
+        readContent(FILE_COMMENTS_PATH),
+      ]);
 
       const [count] = args;
       const countOffer = Number.parseInt(count, 10) || CountRequirements.DEFAULT;
@@ -70,12 +89,12 @@ module.exports = {
         return;
       }
       const content = JSON.stringify(
-          generateOffers(countOffer, titles, sentences, categories),
+          generateOffers(countOffer, titles, sentences, categories, comments),
           null, 4);
       await fs.writeFile(FILE_NAME, content);
       console.info(chalk.green(`Operation success. File created.`));
     } catch (err) {
-      console.error(chalk.red(`Can't write data to file...`));
+      console.error(chalk.red(`Can't write data to file...`), err);
     }
   },
 };

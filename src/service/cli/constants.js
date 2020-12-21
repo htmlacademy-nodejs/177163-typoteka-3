@@ -14,8 +14,12 @@ const FILE_NAME = resolvePath(__dirname, `../../../mocks.json`);
 const FILE_SENTENCES_PATH = resolvePath(__dirname, `../../../data/sentences.txt`);
 const FILE_TITLES_PATH = resolvePath(__dirname, `../../../data/titles.txt`);
 const FILE_CATEGORIES_PATH = resolvePath(__dirname, `../../../data/categories.txt`);
+const FILE_COMMENTS_PATH = resolvePath(__dirname, `../../../data/comments.txt`);
 
 const DEFAULT_PORT = 3000;
+
+const MAX_ID_LENGTH = 6;
+const MAX_COMMENTS = 5;
 
 module.exports = {
   CountRequirements,
@@ -24,5 +28,8 @@ module.exports = {
   FILE_SENTENCES_PATH,
   FILE_TITLES_PATH,
   FILE_CATEGORIES_PATH,
+  FILE_COMMENTS_PATH,
   DEFAULT_PORT,
+  MAX_ID_LENGTH,
+  MAX_COMMENTS,
 };

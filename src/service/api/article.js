@@ -16,13 +16,8 @@ module.exports = (app, articleService, commentService) => {
     res.status(HttpCode.OK).json(articles);
   });
 
-  route.get(`/:id`, (req, res) => {
-    const {id} = req.params;
-    const article = articleService.findOne(id);
-    if (!article) {
-      return res.status(HttpCode.NOT_FOUND)
-        .send(`Not found with ${id}`);
-    }
+  route.get(`/:articleId`, articleExists(articleService), (req, res) => {
+    const {article} = res.locals;
 
     return res.status(HttpCode.OK).json(article);
   });
@@ -33,26 +28,26 @@ module.exports = (app, articleService, commentService) => {
       .json(article);
   });
 
-  route.put(`/:id`, articleValidator, (req, res) => {
-    const {id} = req.params;
-    const existedArticle = articleService.findOne(id);
+  route.put(`/:articleId`, articleValidator, (req, res) => {
+    const {articleId} = req.params;
+    const existedArticle = articleService.findOne(articleId);
 
     if (!existedArticle) {
       return res.status(HttpCode.NOT_FOUND)
-        .send(`Not found with ${id}`);
+        .json(`Not found with ${articleId}`);
     }
 
-    const updatedArticle = articleService.update(id, req.body);
+    const updatedArticle = articleService.update(articleId, req.body);
     return res.status(HttpCode.OK)
       .json(updatedArticle);
   });
 
-  route.delete(`/:id`, (req, res) => {
-    const {id} = req.params;
+  route.delete(`/:articleId`, (req, res) => {
+    const {articleId} = req.params;
 
-    const deletedArticle = articleService.drop(id);
+    const deletedArticle = articleService.drop(articleId);
     if (!deletedArticle) {
-      res.status(HttpCode.NOT_FOUND).send(`Not found`);
+      res.status(HttpCode.NOT_FOUND).json(`Not found`);
       return;
     }
 
@@ -75,7 +70,7 @@ module.exports = (app, articleService, commentService) => {
 
     if (!deletedComment) {
       return res.status(HttpCode.NOT_FOUND)
-        .send(`Not found`);
+        .json(`Not found`);
     }
 
     return res.status(HttpCode.OK)

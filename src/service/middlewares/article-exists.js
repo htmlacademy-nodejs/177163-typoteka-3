@@ -10,7 +10,7 @@ module.exports = (service) => (req, res, next) => {
 
   if (!article) {
     return res.status(HttpCode.NOT_FOUND)
-            .send(`Article with ${articleId} not found`);
+            .json(`Article with ${articleId} not found`);
   }
 
   res.locals.article = article;

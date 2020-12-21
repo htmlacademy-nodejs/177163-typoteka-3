@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
 
   if (!keysExist) {
     return res.status(HttpCode.BAD_REQUEST)
-      .send(`Bad request`);
+      .json(`Bad request`);
   }
 
   return next();

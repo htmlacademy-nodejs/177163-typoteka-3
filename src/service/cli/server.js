@@ -16,7 +16,7 @@ app.use(API_PREFIX, routes);
 
 app.use((req, res) => res
   .status(HttpCode.NOT_FOUND)
-  .send(`Not Found`));
+  .json(`Not Found`));
 
 module.exports = {
   name: `--server`,

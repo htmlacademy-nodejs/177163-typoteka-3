@@ -64,7 +64,8 @@ block content
                   | делаются))
         section.main-page__list.preview
           h2.visually-hidden Список превью статей
-          include partials/preview-list.pug
+          include ./mixins/preview-list.pug
+          +preview-list(articles)
         .preview__toggle-wrapper
           ul.preview__pagination.pagination
             li

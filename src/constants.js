@@ -42,6 +42,11 @@ const FrontDir = {
   TEMPLATES: resolvePath(__dirname, `./express/templates`),
 };
 
+const Env = {
+  DEVELOPMENT: `development`,
+  PRODUCTION: `production`,
+};
+
 module.exports = {
   HttpCode,
   FILE_NAME,
@@ -52,4 +57,5 @@ module.exports = {
   FRONT_DEFAULT_PORT,
   DataFilePath,
   FrontDir,
+  Env,
 };

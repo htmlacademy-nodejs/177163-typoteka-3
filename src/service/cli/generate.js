@@ -37,7 +37,7 @@ const getRandomDate = () => {
   let now = new Date();
   let then = (new Date(now)).setMonth(now.getMonth() - MONTH_INTERVAL);
   const randomDate = new Date(getRandomInt(then, Date.parse(now))).toJSON();
-  return  randomDate;
+  return randomDate;
 };
 
 const generateComments = (count, comments) => (

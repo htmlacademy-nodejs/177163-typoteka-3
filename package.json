@@ -40,5 +40,8 @@
     "nanoid": "3.1.20",
     "pino": "6.8.0",
     "pug": "3.0.0"
+  },
+  "nodemonConfig": {
+    "watch": ["src/"]
   }
 }

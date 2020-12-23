@@ -16,4 +16,4 @@ build/
 
 mocks.json
 *.log
-src/express/upload
+/upload

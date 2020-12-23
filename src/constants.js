@@ -40,7 +40,7 @@ const FRONT_DEFAULT_PORT = 8080;
 const FrontDir = {
   PUBLIC: resolvePath(__dirname, `./express/public`),
   TEMPLATES: resolvePath(__dirname, `./express/templates`),
-  UPLOAD: resolvePath(__dirname, `./express/upload`),
+  UPLOAD: resolvePath(__dirname, `../upload`),
 };
 
 const Env = {

@@ -31,11 +31,10 @@ class API {
     }
 
     addArticle(data) {
-        const res = this._load(`/articles`, {
+        return this._load(`/articles`, {
             method: `POST`,
             data,
         });
-        return res;
     }
 
     async editArticle(id, data) {
@@ -46,8 +45,7 @@ class API {
     }
 
     search(query) {
-        const results = this._load(`/search`, {params: {query}}); 
-        return results;
+        return this._load(`/search`, {params: {query}}); 
     }
 }
 

@@ -3,6 +3,7 @@
 const resolvePath = require(`path`).resolve;
 
 const FILE_NAME = resolvePath(__dirname, `../mocks.json`);
+const FILL_FILE_NAME = resolvePath(__dirname, `../fill-db.sql`);
 
 const MAX_ID_LENGTH = 6;
 
@@ -51,6 +52,7 @@ const Env = {
 module.exports = {
   HttpCode,
   FILE_NAME,
+  FILL_FILE_NAME,
   GenerateFileRequirements,
   SERVICE_DEFAULT_PORT,
   MAX_ID_LENGTH,

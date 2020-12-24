@@ -2,14 +2,14 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const {
-  nanoid
-} = require(`nanoid`);
+const {nanoid} = require(`nanoid`);
 const {
   getRandomInt,
   getRandomItems,
   shuffle,
 } = require(`../../utils`);
+const readContent = require(`../../helpers/read-file-content`);
+const getRandomDate = require(`../../helpers/get-random-date`);
 const {
   FILE_NAME,
   GenerateFileRequirements: {
@@ -22,23 +22,6 @@ const {
   DataFilePath,
   MAX_ID_LENGTH,
 } = require(`../../constants`);
-
-const readContent = async (filePath) => {
-  try {
-    const content = await fs.readFile(filePath, `utf8`);
-    return content.trim().split(`\n`);
-  } catch (err) {
-    console.error(chalk.red(err));
-    return [];
-  }
-};
-
-const getRandomDate = () => {
-  let now = new Date();
-  let then = (new Date(now)).setMonth(now.getMonth() - MONTH_INTERVAL);
-  const randomDate = new Date(getRandomInt(then, Date.parse(now))).toJSON();
-  return randomDate;
-};
 
 const generateComments = (count, comments) => (
   Array(count).fill({}).map(() => ({
@@ -56,7 +39,7 @@ const generateOffers = (count, titles, sentences, categories, comments) => (
     title: titles[getRandomInt(0, titles.length - 1)],
     announce: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
     fullText: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
-    createdDate: getRandomDate(),
+    createdDate: getRandomDate(MONTH_INTERVAL),
     comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments),
   }))
 );

@@ -33,23 +33,11 @@ const readContent = async (filePath) => {
   }
 };
 
-const getTwoDigitsStr = (num) => num > 9 ? num : `0${num}`;
-
 const getRandomDate = () => {
   let now = new Date();
   let then = (new Date(now)).setMonth(now.getMonth() - MONTH_INTERVAL);
-  const randomDate = new Date(getRandomInt(then, Date.parse(now)));
-
-  let [year, month, date, hours, minutes, seconds] = [
-    randomDate.getFullYear(),
-    getTwoDigitsStr(randomDate.getMonth() + 1),
-    getTwoDigitsStr(randomDate.getDate()),
-    getTwoDigitsStr(randomDate.getHours()),
-    getTwoDigitsStr(randomDate.getMinutes()),
-    getTwoDigitsStr(randomDate.getSeconds()),
-  ];
-
-  return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+  const randomDate = new Date(getRandomInt(then, Date.parse(now))).toJSON();
+  return randomDate;
 };
 
 const generateComments = (count, comments) => (

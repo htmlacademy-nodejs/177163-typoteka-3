@@ -21,6 +21,7 @@ class ArticleService {
   create(article) {
     const newArticle = {
       ...article,
+      createdDate: new Date().toJSON(),
       comments: [],
       id: nanoid(MAX_ID_LENGTH)
     };

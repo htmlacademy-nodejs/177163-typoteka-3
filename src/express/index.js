@@ -9,7 +9,11 @@ const myRouter = require(`./routes/my-routes`);
 const {
   HttpCode,
   FRONT_DEFAULT_PORT: PORT,
-  FrontDir: {PUBLIC: PUBLIC_DIR, TEMPLATES: TEMPLATES_DIR},
+  FrontDir: {
+    PUBLIC: PUBLIC_DIR,
+    TEMPLATES: TEMPLATES_DIR,
+    UPLOAD: UPLOAD_DIR
+  },
 } = require(`../constants`);
 
 const app = express();
@@ -19,6 +23,7 @@ app.use(`/my`, myRouter);
 app.use(`/articles`, articlesRouter);
 
 app.use(express.static(PUBLIC_DIR));
+app.use(express.static(UPLOAD_DIR));
 app.set(`views`, TEMPLATES_DIR);
 app.set(`view engine`, `pug`);
 

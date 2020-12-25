@@ -4,12 +4,12 @@ const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
 const {nanoid} = require(`nanoid`);
 const faker = require(`faker`);
-const readContent = require(`../../helpers/read-file-content`);
-const getRandomDate = require(`../../helpers/get-random-date`);
 const {
   getRandomInt,
   getRandomItems,
   shuffle,
+  getRandomDate,
+  readContent,
 } = require(`../../utils`);
 
 const {

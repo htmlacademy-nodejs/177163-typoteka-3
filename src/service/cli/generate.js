@@ -7,9 +7,9 @@ const {
   getRandomInt,
   getRandomItems,
   shuffle,
+  getRandomDate,
+  readContent,
 } = require(`../../utils`);
-const readContent = require(`../../helpers/read-file-content`);
-const getRandomDate = require(`../../helpers/get-random-date`);
 const {
   FILE_NAME,
   GenerateFileRequirements: {

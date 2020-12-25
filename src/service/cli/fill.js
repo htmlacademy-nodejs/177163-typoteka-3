@@ -39,7 +39,6 @@ const generateUsers = () =>
 const generateArticles = (count, titles, sentences, users) =>
   Array(count).fill({}).map((it, index) => ({
     id: index + 1,
-    // category: getRandomItems(categories, getRandomInt(1, categories.length - 1)),
     title: titles[getRandomInt(0, titles.length - 1)],
     announce: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
     fullText: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),

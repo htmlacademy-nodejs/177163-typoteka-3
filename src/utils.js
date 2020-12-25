@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require(`fs`).promises;
+
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -19,4 +21,26 @@ const getRandomItems = (arr, max) => {
   return shuffle(arr).slice(0, Math.min(arr.length, max));
 };
 
-module.exports = {getRandomInt, getRandomItems, shuffle};
+const getRandomDate = (interval) => {
+  const now = new Date();
+  const then = (new Date(now)).setMonth(now.getMonth() - interval);
+  const randomDate = new Date(getRandomInt(then, Date.parse(now))).toJSON();
+  return randomDate;
+};
+
+const readContent = async (filePath) => {
+  try {
+    const content = await fs.readFile(filePath, `utf8`);
+    return content.trim().split(`\n`);
+  } catch (err) {
+    return [];
+  }
+};
+
+module.exports = {
+  getRandomInt,
+  getRandomItems,
+  shuffle,
+  getRandomDate,
+  readContent,
+};

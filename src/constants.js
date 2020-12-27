@@ -25,8 +25,6 @@ const GenerateFileRequirements = {
   MAX_COMMENTS: 5,
 };
 
-const SERVICE_DEFAULT_PORT = 3000;
-
 const DataFilePath = {
   SENTENCES: resolvePath(__dirname, `../data/sentences.txt`),
   TITLES: resolvePath(__dirname, `../data/titles.txt`),
@@ -35,8 +33,6 @@ const DataFilePath = {
 };
 
 const API_PREFIX = `/api`;
-
-const FRONT_DEFAULT_PORT = 8080;
 
 const FrontDir = {
   PUBLIC: resolvePath(__dirname, `./express/public`),
@@ -54,10 +50,8 @@ module.exports = {
   FILE_NAME,
   FILL_FILE_NAME,
   GenerateFileRequirements,
-  SERVICE_DEFAULT_PORT,
   MAX_ID_LENGTH,
   API_PREFIX,
-  FRONT_DEFAULT_PORT,
   DataFilePath,
   FrontDir,
   Env,

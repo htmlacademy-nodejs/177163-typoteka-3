@@ -8,13 +8,14 @@ const myRouter = require(`./routes/my-routes`);
 
 const {
   HttpCode,
-  FRONT_DEFAULT_PORT: PORT,
   FrontDir: {
     PUBLIC: PUBLIC_DIR,
     TEMPLATES: TEMPLATES_DIR,
     UPLOAD: UPLOAD_DIR
   },
 } = require(`../constants`);
+const {FRONT_PORT: PORT} = require(`../../config`);
+
 
 const app = express();
 

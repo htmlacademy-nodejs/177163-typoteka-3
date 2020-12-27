@@ -17,3 +17,4 @@ build/
 mocks.json
 *.log
 /upload
+.env

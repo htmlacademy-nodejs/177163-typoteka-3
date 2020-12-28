@@ -2,12 +2,13 @@
 
 const express = require(`express`);
 const {getLogger} = require(`../lib/logger`);
+const db = require(`../lib/db`);
 const routes = require(`../api`);
 const {
   HttpCode,
   API_PREFIX,
-  SERVICE_DEFAULT_PORT: PORT,
 } = require(`../../constants`);
+const {API_PORT: PORT} = require(`../../../config`);
 
 const logger = getLogger({name: `api`});
 const app = express();
@@ -37,7 +38,16 @@ app.use((err, _req, _res, _next) => {
 
 module.exports = {
   name: `--server`,
-  run(args) {
+  async run(args) {
+    try {
+      logger.info(`Connecting to database...`);
+      await db.authenticate();
+      logger.info(`Connected to database`);
+    } catch (err) {
+      logger.error(`Failed to connect to database: ${err}`);
+      process.exit(1);
+    }
+
     const [customPort] = args;
     const port = Number.parseInt(customPort, 10) || PORT;
 
@@ -50,7 +60,7 @@ module.exports = {
       });
     } catch (err) {
       logger.error(`An error occured: ${err.message}`);
-      process(1);
+      process.exit(1);
     }
   },
 };

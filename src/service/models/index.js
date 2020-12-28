@@ -1,8 +1,5 @@
 'use strict';
 
-"use strict";
-
-const {Model} = require(`sequelize`);
 const Alias = require(`./aliases`);
 const defineCategory = require(`./categories`);
 const defineUser = require(`./users`);
@@ -29,8 +26,6 @@ const define = (sequelize) => {
 
   Article.belongsToMany(Category, {as: Alias.CATEGORIES, through: ArticleCategory});
   Category.belongsToMany(Article, {as: Alias.ARTICLES, through: ArticleCategory});
-
-  // sequelize.getQueryInterface().chnageColumn(`articles_categories`, ``);
 
   return {User, Category, Article, Comment, ArticleCategory};
 };

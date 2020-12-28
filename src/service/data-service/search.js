@@ -16,7 +16,7 @@ class SearchService {
       },
       include: [],
     });
-    return articles.map(article => article.get())
+    return articles.map((article) => article.get());
   }
 }
 

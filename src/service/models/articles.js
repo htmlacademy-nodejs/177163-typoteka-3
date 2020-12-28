@@ -1,4 +1,4 @@
-`use strict`;
+'use strict';
 
 const {DataTypes, Model} = require(`sequelize`);
 
@@ -12,15 +12,15 @@ module.exports = (sequelize) => Article.init({
     primaryKey: true,
   },
   title: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   announce: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   fullText: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   picture: {

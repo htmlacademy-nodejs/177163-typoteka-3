@@ -4,7 +4,7 @@ const Alias = require(`../models/aliases`);
 
 class ArticleService {
   constructor(sequelize) {
-    this._Article = sequelize.model.Article;
+    this._Article = sequelize.models.Article;
   }
 
   async findAll() {
@@ -28,16 +28,16 @@ class ArticleService {
 
   async update(id, changedArticle) {
     const [affected] = await this._Article.update(changedArticle, {
-      where: { id },
+      where: {id},
     });
     return !!affected;
   }
 
   async drop(id) {
     const deleted = await this._Article.destroy({
-      where: { id },
+      where: {id},
     });
-    return !!deleted
+    return !!deleted;
   }
 }
 

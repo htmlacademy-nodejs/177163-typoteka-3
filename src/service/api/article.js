@@ -8,8 +8,8 @@ const {HttpCode} = require(`../../constants`);
 
 const route = new Router();
 
-module.exports = (app, articleService, commentService) => {
-  app.use(`/articles`, route);
+module.exports = (router, articleService, commentService) => {
+  router.use(`/articles`, route);
 
   route.get(`/`, async (req, res) => {
     const articles = await articleService.findAll();

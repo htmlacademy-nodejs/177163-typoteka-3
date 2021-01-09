@@ -1,17 +1,13 @@
 'use strict';
 
 class CategoryService {
-  constructor(articles) {
-    this._articles = articles;
+  constructor(db) {
+    this._categories = db.models.Category;
   }
 
-  findAll() {
-    const categories = this._articles.reduce((acc, article) => {
-      article.category.forEach((category) => acc.add(category));
-      return acc;
-    }, new Set());
-
-    return [...categories];
+  async findAll() {
+    const res = await this._categories.findAll({raw: true});
+    return res;
   }
 }
 

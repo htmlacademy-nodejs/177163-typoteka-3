@@ -1,12 +1,11 @@
 'use strict';
 
 const {Router} = require(`express`);
+const db = require(`../lib/db`);
 const search = require(`./search`);
 const article = require(`./article`);
 const category = require(`./category`);
-
-const getMockData = require(`../lib/get-mock-data`);
-
+const defineModels = require(`../models`);
 const {
   CategoryService,
   SearchService,
@@ -14,16 +13,18 @@ const {
   CommentService,
 } = require(`../data-service`);
 
-const app = new Router();
+defineModels(db);
 
-(async () => {
-  const mockData = await getMockData();
+const initApi = async () => {
+  const router = new Router();
 
-  category(app, new CategoryService(mockData));
-  article(app, new ArticleService(mockData), new CommentService());
-  search(app, new SearchService(mockData));
-})();
+  category(router, new CategoryService(db));
+  article(router, new ArticleService(db), new CommentService(db));
+  search(router, new SearchService(db));
 
-module.exports = app;
+  return router;
+};
+
+module.exports = initApi;
 
 

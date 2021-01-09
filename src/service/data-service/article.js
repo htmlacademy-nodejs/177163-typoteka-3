@@ -8,10 +8,21 @@ class ArticleService {
   }
 
   async findAll() {
-    const articles = await this._articles.findAll({
+    const {rows: articles, count: articlesCount} = await this._articles.findAndCountAll({
       include: [Alias.CATEGORIES, Alias.COMMENTS],
+      distinct: true,
     });
-    return articles;
+    return {articles, articlesCount};
+  }
+
+  async findRange({offset, limit}) {
+    const {rows: articles, count: articlesCount} = await this._articles.findAndCountAll({
+      offset,
+      limit,
+      include: [Alias.CATEGORIES, Alias.COMMENTS],
+      distinct: true,
+    });
+    return {articles, articlesCount};
   }
 
   async findOne(id) {

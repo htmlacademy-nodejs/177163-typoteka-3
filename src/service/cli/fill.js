@@ -42,7 +42,7 @@ const generateArticles = (count, titles, sentences, users) =>
     title: titles[getRandomInt(0, titles.length - 1)],
     announce: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
     fullText: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
-    createdDate: getRandomDate(MONTH_INTERVAL),
+    createdAt: getRandomDate(MONTH_INTERVAL),
     picture: [`forest@1x.jpg`, `sea@1x.jpg`, `skyscrapper@1x.jpg`][getRandomInt(0, 2)],
     authorId: users[getRandomInt(0, users.length - 1)].id,
   }));
@@ -71,7 +71,7 @@ const generateComments = (articles, users, comments) => {
           text: shuffle(comments)
             .slice(0, getRandomInt(1, 3))
             .join(` `),
-          createdDate: article.createdDate,
+          createdAt: article.createdAt,
           articleId: article.id,
           authorId: users[getRandomInt(0, users.length - 1)].id,
         }))
@@ -97,7 +97,7 @@ ${articles
       '${article.announce}',
       '${article.fullText}',
       '${article.picture}',
-      '${article.createdDate}',
+      '${article.createdAt}',
       '${article.authorId}')`)
   .join(`,\n`)};
 `);
@@ -111,7 +111,7 @@ const getCommentsQuery = (comments) => (`
 INSERT INTO public.comments (text, created_date, article_id, author_id) VALUES
 ${comments
   .map((comment) => `\t('${comment.text}',
-    '${comment.createdDate}',
+    '${comment.createdAt}',
     '${comment.articleId}',
     '${comment.authorId}')`)
   .join(`,\n`)};

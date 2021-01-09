@@ -11,9 +11,16 @@ const route = new Router();
 module.exports = (router, articleService, commentService) => {
   router.use(`/articles`, route);
 
+  // returns object {articles: [...], articlesCount: N}
   route.get(`/`, async (req, res) => {
-    const articles = await articleService.findAll();
-    res.status(HttpCode.OK).json(articles);
+    const {offset, limit} = req.query;
+    let result;
+    if (offset || limit) {
+      result = await articleService.findRange({offset, limit});
+    } else {
+      result = await articleService.findAll();
+    }
+    res.status(HttpCode.OK).json(result);
   });
 
   route.get(`/:articleId`, articleExists(articleService), async (req, res) => {

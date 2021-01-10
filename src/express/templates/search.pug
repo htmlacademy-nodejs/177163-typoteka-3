@@ -15,7 +15,7 @@ block content
             if results && results.length
               each result in results
                 .search__result
-                  time.search__date(datetime=`${result.createdDate}`) #{result.createdDate.split('T')[0]}
+                  time.search__date(datetime=`${result.createdAt}`) #{result.createdAt.split('T')[0]}
                   a.search__link #{result.title}
             else if results && !results.length
               p.search-page__empty Ничего не нашлось

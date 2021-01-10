@@ -5,6 +5,7 @@ const {API_PREFIX} = require(`../constants`);
 const {API_PORT} = require(`../../config`);
 
 const TIMEOUT = 1000;
+const ARTICLES_PAGE_COUNT = 8;
 
 const defaultUrl = `http://localhost:${API_PORT}${API_PREFIX}/`;
 
@@ -22,8 +23,17 @@ class API {
     return response.data;
   }
 
-  getArticles() {
-    return this._load(`/articles`);
+  async getArticles(page) {
+    const params = {};
+    if (page) {
+      params.offset = (page - 1) * ARTICLES_PAGE_COUNT;
+      params.limit = ARTICLES_PAGE_COUNT;
+    }
+    const result = await this._load(`/articles`, {params});
+    return {
+      articles: result.articles,
+      totalPages: result.articlesCount && Math.ceil(result.articlesCount / ARTICLES_PAGE_COUNT),
+    };
   }
 
   getArticle(id) {

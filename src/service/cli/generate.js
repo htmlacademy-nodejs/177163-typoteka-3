@@ -39,7 +39,7 @@ const generateOffers = (count, titles, sentences, categories, comments) => (
     title: titles[getRandomInt(0, titles.length - 1)],
     announce: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
     fullText: getRandomItems(sentences, getRandomInt(1, 5)).join(` `),
-    createdDate: getRandomDate(MONTH_INTERVAL),
+    createdAt: getRandomDate(MONTH_INTERVAL),
     comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments),
   }))
 );

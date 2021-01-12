@@ -39,7 +39,7 @@ articlesRouter.post(`/add`, upload.single(`upload`), async (req, res) => {
     await api.addArticle(article);
     res.redirect(`/my`);
   } catch (err) {
-    res.redirect(`back`);
+    res.render(`articles/new-post`, {article, validationErrors: err.response.data.message});
   }
 });
 articlesRouter.post(`/edit/:id`, upload.single(`upload`), async (req, res) => {
@@ -57,7 +57,7 @@ articlesRouter.post(`/edit/:id`, upload.single(`upload`), async (req, res) => {
     await api.editArticle(req.params.id, article);
     res.redirect(`/my`);
   } catch (err) {
-    res.redirect(`back`);
+    res.render(`articles/new-post`, {article, validationErrors: err.response.data.message});
   }
 });
 articlesRouter.get(`/:id`, async (req, res) => {

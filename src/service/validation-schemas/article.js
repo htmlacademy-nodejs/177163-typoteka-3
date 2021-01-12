@@ -16,7 +16,8 @@ module.exports = Joi.object({
         .max(1000),
   category: Joi.array()
         .items(Joi.number())
-        .min(1),
+        .min(1)
+        .required(),
   picture: Joi.string()
         .pattern(/([a-zA-Z0-9\s_\\.\-\(\):])+(.png|.jpg)$/i),
 });

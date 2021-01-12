@@ -2,6 +2,7 @@
 
 const express = require(`express`);
 const chalk = require(`chalk`);
+const helmet = require('helmet');
 const articlesRouter = require(`./routes/articles-routes`);
 const mainRouter = require(`./routes/main-routes`);
 const myRouter = require(`./routes/my-routes`);
@@ -35,6 +36,14 @@ app.use((err, _req, res, _next) => {
     .status(HttpCode.INTERNAL_SERVER_ERROR)
     .render(`errors/500`);
 });
+
+app.use(helmet.xssFilter());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'"],
+  },
+}));
 
 app.listen(PORT, (err) => {
   if (err) {

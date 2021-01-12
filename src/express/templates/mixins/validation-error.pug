@@ -1,0 +1,6 @@
+mixin validation-error(errorMessage, errorsList)
+  .form__validation-error
+    p.form__error-message #{errorMessage}:
+    ul.form__errors
+      each msg in errorsList
+        li.form__error #{msg}

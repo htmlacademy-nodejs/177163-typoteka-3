@@ -224,7 +224,7 @@ describe(`API refuses to create an article if data is invalid`, () => {
   });
 });
 
-describe(`API changes existent offer`, () => {
+describe(`API changes existent article`, () => {
 
   const app = createAPI();
   let response;
@@ -305,7 +305,7 @@ describe(`API correctly deletes an article`, () => {
   test(`Returns deleted article`, () => expect(response.body.id).toBe(`qpdB5W`));
 });
 
-test(`API refuses to delete non-existent offer`, () => {
+test(`API refuses to delete non-existent article`, () => {
 
   const app = createAPI();
 

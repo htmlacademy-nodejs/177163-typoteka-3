@@ -50,14 +50,14 @@ module.exports = (router, articleService, commentService) => {
   route.delete(`/:articleId`, idValidator(`articleId`), async (req, res) => {
     const {articleId} = req.params;
 
-    const deletedArticle = await articleService.drop(articleId);
-    if (!deletedArticle) {
+    const deletedArticleId = await articleService.drop(articleId);
+    if (!deletedArticleId) {
       res.status(HttpCode.NOT_FOUND).json(`Not found`);
       return;
     }
 
     res.status(HttpCode.OK)
-      .json(deletedArticle);
+      .json(deletedArticleId);
   });
 
   route.get(

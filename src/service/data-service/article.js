@@ -26,7 +26,7 @@ class ArticleService {
   }
 
   async findOne(id) {
-    return this._articles.findByPk(id, {
+    return await this._articles.findByPk(id, {
       include: [Alias.CATEGORIES, Alias.COMMENTS],
     });
   }
@@ -51,7 +51,7 @@ class ArticleService {
     const deleted = await this._articles.destroy({
       where: {id},
     });
-    return !!deleted;
+    return !!deleted && id;
   }
 }
 

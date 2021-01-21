@@ -1,7 +1,6 @@
 'use strict';
 
 const {Sequelize} = require(`sequelize`);
-const fillDb = require(`./filldb`);
 const defineModels = require(`../models`);
 
 const {

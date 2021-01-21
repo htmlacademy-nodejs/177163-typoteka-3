@@ -12,8 +12,8 @@ module.exports = Joi.object({
         .max(250)
         .required(),
   fullText: Joi.string()
-        .allow(``)
-        .max(1000),
+        .max(1000)
+        .required(),
   category: Joi.array()
         .items(Joi.number())
         .min(1)

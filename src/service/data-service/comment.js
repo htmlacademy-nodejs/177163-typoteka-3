@@ -24,7 +24,7 @@ class CommentService {
       where: {id: commentId}
     });
 
-    return !!deleted;
+    return !!deleted && commentId;
   }
 }
 

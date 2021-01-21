@@ -7,7 +7,7 @@ const category = require(`./category`);
 const DataService = require(`../data-service/category`);
 const testDb = require(`../lib/testdb`);
 
-const { HttpCode } = require(`../../constants`);
+const {HttpCode} = require(`../../constants`);
 
 const categoriesMock = [
   `Кино`,
@@ -21,10 +21,10 @@ const categoriesMock = [
 
 const app = express();
 app.use(express.json());
-category(app, new DataService(testDb))
+category(app, new DataService(testDb));
 
-beforeAll(async ()  => {
-  await testDb.models.Category.bulkCreate(categoriesMock.map(c => ({ name: c })));
+beforeAll(async () => {
+  await testDb.models.Category.bulkCreate(categoriesMock.map((c) => ({name: c})));
 });
 
 afterAll(async () => {
@@ -47,8 +47,8 @@ describe(`API returns category list`, () => {
     expect(response.body.length).toBe(categoriesMock.length);
   });
   test(`Categories names correct`, async () => {
-    expect(response.body.map(c => c.name)).toEqual(
-      expect.arrayContaining(categoriesMock)
+    expect(response.body.map((c) => c.name)).toEqual(
+        expect.arrayContaining(categoriesMock)
     );
   });
 });

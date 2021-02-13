@@ -7,7 +7,10 @@ const article = require(`./article`);
 const ArticleService = require(`../data-service/article`);
 const CommentService = require(`../data-service/comment`);
 const Alias = require(`../models/aliases`);
-const testDb = require(`../lib/testdb`);
+
+const testDb = require(`../lib/db`);
+const defineModels = require(`../models`);
+defineModels(testDb);
 
 const {HttpCode} = require(`../../constants`);
 

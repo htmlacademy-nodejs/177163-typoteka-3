@@ -2,7 +2,7 @@
 
 ## Общее
 
-`NODE_ENV` — окружение (production/development);
+`NODE_ENV` — окружение (production/development/test);
 `API_PORT` — порт api сервера;  
 `FRONT_PORT` — порт сервера приложения;  
 

@@ -1,22 +1,22 @@
 'use strict';
 
 const {Sequelize} = require(`sequelize`);
-const {
-  DB_NAME,
-  DB_USER,
-  DB_PASSWORD,
-  DB_HOST,
-  DB_PORT,
-  DB_TYPE,
-} = require(`../../../config`);
+const env = require(`../../../config`);
+
+const prfx        = env.NODE_ENV === `test` ? `TEST_` : ``;
+const dbName      = env[`${prfx}DB_NAME`];
+const dbUser      = env[`${prfx}DB_USER`];
+const dbPassword  = env[`${prfx}DB_PASSWORD`];
+const dbHost      = env[`${prfx}DB_HOST`];
+const dbPort      = env[`${prfx}DB_PORT`];
+const dbType      = env[`DB_TYPE`];
 
 const notDefined = [
-  DB_NAME,
-  DB_USER,
-  DB_PASSWORD,
-  DB_HOST,
-  DB_PORT,
-  DB_TYPE
+  dbName,
+  dbUser,
+  dbPassword,
+  dbHost,
+  dbPort,
 ].some((it) => it === undefined);
 
 if (notDefined) {
@@ -24,13 +24,13 @@ if (notDefined) {
 }
 
 module.exports = new Sequelize(
-    DB_NAME,
-    DB_USER,
-    DB_PASSWORD,
+    dbName,
+    dbUser,
+    dbPassword,
     {
-      host: DB_HOST,
-      port: DB_PORT,
-      dialect: DB_TYPE,
+      host: dbHost,
+      port: dbPort,
+      dialect: dbType,
       pool: {
         max: 5,
         min: 0,

@@ -38,7 +38,7 @@ module.exports = (router, articleService, commentService) => {
   });
 
   route.put(`/:articleId`,
-      [articleExists(articleService), schemaValidator(articleSchema)],
+      [schemaValidator(articleSchema), articleExists(articleService)],
       async (req, res) => {
         const {articleId} = req.params;
 

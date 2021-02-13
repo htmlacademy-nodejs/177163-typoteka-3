@@ -5,7 +5,10 @@ const request = require(`supertest`);
 
 const category = require(`./category`);
 const DataService = require(`../data-service/category`);
-const testDb = require(`../lib/testdb`);
+
+const testDb = require(`../lib/db`);
+const defineModels = require(`../models`);
+defineModels(testDb);
 
 const {HttpCode} = require(`../../constants`);
 

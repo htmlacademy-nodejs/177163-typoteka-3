@@ -1,7 +1,7 @@
 'use strict';
 
-const {HttpCode} = require(`../../constants`);
 const Joi = require(`joi`);
+const {HttpCode} = require(`../../constants`);
 
 module.exports = (idParamName) => (
   async (req, res, next) => {

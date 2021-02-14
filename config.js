@@ -12,4 +12,10 @@ module.exports = {
     DB_HOST: process.env.DB_HOST,
     DB_PORT: process.env.DB_PORT,
     DB_TYPE: process.env.DB_TYPE,
+
+    TEST_DB_NAME: process.env.TEST_DB_NAME,
+    TEST_DB_USER: process.env.TEST_DB_USER,
+    TEST_DB_PASSWORD: process.env.TEST_DB_PASSWORD,
+    TEST_DB_HOST: process.env.TEST_DB_HOST,
+    TEST_DB_PORT: process.env.TEST_DB_PORT,
 };

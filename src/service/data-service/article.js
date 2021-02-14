@@ -26,29 +26,32 @@ class ArticleService {
   }
 
   async findOne(id) {
-    return this._articles.findByPk(id, {
+    return await this._articles.findByPk(id, {
       include: [Alias.CATEGORIES, Alias.COMMENTS],
     });
   }
 
   async create(articleData) {
     const newArticle = await this._articles.create(articleData);
-    await newArticle.addCategories(articleData.categories);
+    await newArticle.addCategories(articleData.category);
     return newArticle.get();
   }
 
-  async update(id, changedArticle) {
-    const [affected] = await this._articles.update(changedArticle, {
-      where: {id},
-    });
-    return !!affected;
+  async update(id, changedArticleData) {
+    const affectedArticle = await this._articles.findByPk(id);
+    const categories = await affectedArticle.getCategories();
+    await affectedArticle.removeCategories(categories);
+    await affectedArticle.update(changedArticleData);
+    await affectedArticle.addCategories(changedArticleData.category);
+
+    return affectedArticle.get();
   }
 
   async drop(id) {
     const deleted = await this._articles.destroy({
       where: {id},
     });
-    return !!deleted;
+    return !!deleted && id;
   }
 }
 

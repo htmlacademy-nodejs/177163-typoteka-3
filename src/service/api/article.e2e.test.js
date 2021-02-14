@@ -4,145 +4,84 @@ const express = require(`express`);
 const request = require(`supertest`);
 
 const article = require(`./article`);
-const DataService = require(`../data-service/article`);
+const ArticleService = require(`../data-service/article`);
 const CommentService = require(`../data-service/comment`);
+const Alias = require(`../models/aliases`);
+
+const testDb = require(`../lib/db`);
+const defineModels = require(`../models`);
+defineModels(testDb);
 
 const {HttpCode} = require(`../../constants`);
 
-const mockData = [
+const articlesMock = [
   {
-    "id": `qpdB5W`,
-    "category": [
-      `Разное`,
-      `Без рамки`
-    ],
     "title": `Рок — это протест`,
     "announce": `Рок-музыка всегда ассоциировалась с протестами. Так ли это на самом деле? Альбом стал настоящим открытием года. Мощные гитарные рифы и скоростные соло-партии не дадут заскучать. Помните, небольшое количество ежедневных упражнений лучше, чем один раз, но много. Бороться с прокрастинацией несложно. Просто действуйте. Маленькими шагами.`,
     "fullText": `Из под его пера вышло 8 платиновых альбомов. Первая большая ёлка была установлена только в 1938 году. Бороться с прокрастинацией несложно. Просто действуйте. Маленькими шагами. Освоить вёрстку несложно. Возьмите книгу новую книгу и закрепите все упражнения на практике.`,
-    "createdAt": `2020-11-22 06:05:39`,
     "comments": [
       {
-        "id": `dFsn2r`,
+        "text": `Планируете записать видосик на эту тему?`
+      },
+      {
         "text": `Совсем немного... Давно не пользуюсь стационарными компьютерами. Ноутбуки победили. Это где ж такие красоты?`
       },
       {
-        "id": `TGeudj`,
         "text": `Давно не пользуюсь стационарными компьютерами. Ноутбуки победили.`
-      },
-      {
-        "id": `HUY9zp`,
-        "text": `Планируете записать видосик на эту тему?`
       }
     ]
   },
   {
-    "id": `URLG4A`,
-    "category": [
-      `Без рамки`,
-      `Музыка`
-    ],
     "title": `Обзор новейшего смартфона`,
     "announce": `Достичь успеха помогут ежедневные повторения. Освоить вёрстку несложно. Возьмите книгу новую книгу и закрепите все упражнения на практике. Игры и программирование разные вещи. Не стоит идти в программисты, если вам нравятся только игры. Как начать действовать? Для начала просто соберитесь. Простые ежедневные упражнения помогут достичь успеха.`,
     "fullText": `Альбом стал настоящим открытием года. Мощные гитарные рифы и скоростные соло-партии не дадут заскучать. Бороться с прокрастинацией несложно. Просто действуйте. Маленькими шагами.`,
-    "createdAt": `2020-10-27 00:39:43`,
     "comments": [
       {
-        "id": `Ul1vVV`,
         "text": `Это где ж такие красоты?`
       },
       {
-        "id": `tdMdNd`,
         "text": `Согласен с автором! Мне не нравится ваш стиль. Ощущение, что вы меня поучаете. Хочу такую же футболку :-)`
       }
     ]
   },
-  {
-    "id": `PkRvK7`,
-    "category": [
-      `Музыка`,
-      `Кино`,
-      `Без рамки`,
-      `Железо`
-    ],
-    "title": `Борьба с прокрастинацией`,
-    "announce": `Ёлки — это не просто красивое дерево. Это прочная древесина. Альбом стал настоящим открытием года. Мощные гитарные рифы и скоростные соло-партии не дадут заскучать. Золотое сечение — соотношение двух величин, гармоническая пропорция.`,
-    "fullText": `Из под его пера вышло 8 платиновых альбомов.`,
-    "createdAt": `2020-12-20 12:04:11`,
-    "comments": [
-      {
-        "id": `ispIWD`,
-        "text": `Хочу такую же футболку :-)`
-      }
-    ]
-  },
-  {
-    "id": `rCRheV`,
-    "category": [
-      `Разное`,
-      `Музыка`,
-      `IT`
-    ],
-    "title": `Лучшие рок-музыканты 20-века`,
-    "announce": `Освоить вёрстку несложно. Возьмите книгу новую книгу и закрепите все упражнения на практике. Первая большая ёлка была установлена только в 1938 году.`,
-    "fullText": `Бороться с прокрастинацией несложно. Просто действуйте. Маленькими шагами. Альбом стал настоящим открытием года. Мощные гитарные рифы и скоростные соло-партии не дадут заскучать.`,
-    "createdAt": `2020-09-25 19:54:52`,
-    "comments": [
-      {
-        "id": `YA-RJA`,
-        "text": `Плюсую, но слишком много буквы! Совсем немного... Это где ж такие красоты?`
-      },
-      {
-        "id": `djSB1P`,
-        "text": `Давно не пользуюсь стационарными компьютерами. Ноутбуки победили. Согласен с автором! Мне кажется или я уже читал это где-то?`
-      },
-      {
-        "id": `mwlW2F`,
-        "text": `Совсем немного...`
-      },
-      {
-        "id": `hD4vt5`,
-        "text": `Планируете записать видосик на эту тему? Совсем немного...`
-      }
-    ]
-  },
-  {
-    "id": `WQ89tr`,
-    "category": [
-      `Железо`,
-      `Разное`,
-      `Кино`
-    ],
-    "title": `Лучшие рок-музыканты 20-века`,
-    "announce": `Это один из лучших рок-музыкантов. Он написал больше 30 хитов. Освоить вёрстку несложно. Возьмите книгу новую книгу и закрепите все упражнения на практике. Простые ежедневные упражнения помогут достичь успеха.`,
-    "fullText": `Золотое сечение — соотношение двух величин, гармоническая пропорция.`,
-    "createdAt": `2020-10-26 14:50:07`,
-    "comments": [
-      {
-        "id": `b2kvCP`,
-        "text": `Совсем немного... Мне кажется или я уже читал это где-то? Давно не пользуюсь стационарными компьютерами. Ноутбуки победили.`
-      },
-      {
-        "id": `k3SzUO`,
-        "text": `Давно не пользуюсь стационарными компьютерами. Ноутбуки победили.`
-      },
-      {
-        "id": `QmUDN1`,
-        "text": `Это где ж такие красоты? Мне кажется или я уже читал это где-то? Давно не пользуюсь стационарными компьютерами. Ноутбуки победили.`
-      }
-    ]
-  }
 ];
 
-const createAPI = () => {
-  const app = express();
-  const cloneData = JSON.parse(JSON.stringify(mockData));
-  app.use(express.json());
-  article(app, new DataService(cloneData), new CommentService());
-  return app;
-};
+let categoryId;
+let testArticles = [];
+
+beforeAll(async () => {
+  const category = await testDb.models.Category.create({name: `test category`});
+  categoryId = category.id;
+  articlesMock.forEach(async (a) => {
+    let createdArticle = await testDb.models.Article.create(a, {include: [Alias.COMMENTS]});
+    testArticles.push({
+      id: createdArticle.id,
+      title: createdArticle.title,
+    });
+    createdArticle.addCategories([categoryId]);
+  });
+});
+
+afterAll(async () => {
+  await testDb.models.Comment.destroy({
+    where: {},
+    truncate: {cascade: true},
+  });
+  await testDb.models.Article.destroy({
+    where: {},
+    truncate: {cascade: true},
+  });
+  await testDb.models.Category.destroy({
+    where: {},
+    truncate: {cascade: true},
+  });
+});
+
+const app = express();
+app.use(express.json());
+article(app, new ArticleService(testDb), new CommentService(testDb));
 
 describe(`API returns a list of all articles`, () => {
-  const app = createAPI();
   let response;
 
   beforeAll(async () => {
@@ -151,39 +90,36 @@ describe(`API returns a list of all articles`, () => {
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
-  test(`Returns a list of 5 articles`, () => expect(response.body.length).toBe(5));
-  test(`First article's id is "qpdB5W"`, () => expect(response.body[0].id).toBe(`qpdB5W`));
+  test(`Returns a list of ${articlesMock.length} articles`, () => expect(response.body.articles.length).toBe(articlesMock.length));
+  test(`First article's title is "${articlesMock[0].title}"`, () => expect(response.body.articles[0].title).toBe(articlesMock[0].title));
 });
 
 describe(`API returns an article with given id`, () => {
-  const app = createAPI();
   let response;
+  let currId; let currTitle;
 
   beforeAll(async () => {
+    currId = testArticles[0].id;
+    currTitle = testArticles[0].title;
     response = await request(app)
-            .get(`/articles/qpdB5W`);
+            .get(`/articles/${currId}`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
-  test(`Article's title is "Рок — это протест"`, () => expect(response.body.title).toBe(`Рок — это протест`));
+  test(`Article's title is "${currTitle}"`, () => expect(response.body.title).toBe(`${currTitle}`));
 });
 
 describe(`API creates an article if data is valid`, () => {
-
-  const app = createAPI();
   let response;
-
-  const newArticle = {
-    category: [
-      `Test Create 1`,
-      `Test Create 2`
-    ],
-    title: `Test Create`,
-    announce: `Test Create`,
-    fullText: `Test Create`
-  };
+  let newArticle;
 
   beforeAll(async () => {
+    newArticle = {
+      category: [categoryId],
+      title: `Test Create Title 30 symbols long at least`,
+      announce: `Test Create Announcement 30 symbols long at least`,
+      fullText: `Test Create`
+    };
     response = await request(app)
             .post(`/articles`)
             .send(newArticle);
@@ -191,28 +127,28 @@ describe(`API creates an article if data is valid`, () => {
 
 
   test(`Status code 201`, () => expect(response.statusCode).toBe(HttpCode.CREATED));
-  test(`Returns article created`, () => expect(response.body).toEqual(expect.objectContaining(newArticle)));
+  test(`Returns article created`, () => expect(response.body).toEqual(expect.objectContaining({
+    title: newArticle.title,
+    announce: newArticle.announce,
+    fullText: newArticle.fullText,
+  })));
   test(`Articles count is changed`, () => request(app)
         .get(`/articles`)
-        .expect((res) => expect(res.body.length).toBe(6))
+        .expect((res) => {
+          expect(res.body.articlesCount).toBe(articlesMock.length + 1);
+        })
   );
 
 });
 
 describe(`API refuses to create an article if data is invalid`, () => {
-  const app = createAPI();
-
-  const newArticle = {
-    category: [
-      `Test Create 1`,
-      `Test Create 2`
-    ],
-    title: `Test Create`,
-    announce: `Test Create`,
-    fullText: `Test Create`
-  };
-
   test(`Without any required property response code is 400`, async () => {
+    const newArticle = {
+      category: [categoryId],
+      title: `Test Create Title 30 symbols long at least`,
+      announce: `Test Create Announcement 30 symbols long at least`,
+      fullText: `Test Create`
+    };
     for (const key of Object.keys(newArticle)) {
       const badArticle = {...newArticle};
       delete badArticle[key];
@@ -224,202 +160,175 @@ describe(`API refuses to create an article if data is invalid`, () => {
   });
 });
 
-describe(`API changes existent offer`, () => {
+describe(`API changes existent article`, () => {
 
-  const app = createAPI();
   let response;
-
-  const newArticle = {
-    category: [
-      `Test Edit 1`,
-      `Test Edit 2`
-    ],
-    title: `Test Edit`,
-    announce: `Test Edit`,
-    fullText: `Test Edit`
-  };
+  let newArticle;
 
   beforeAll(async () => {
+    newArticle = {
+      category: [categoryId],
+      title: `Test Edit Article Title With At Least 30 Symbols`,
+      announce: `Test Edit Announcement 30 symbols long at least`,
+      fullText: `Test Edit`
+    };
     response = await request(app)
-            .put(`/articles/qpdB5W`)
+            .put(`/articles/${testArticles[0].id}`)
             .send(newArticle);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
-  test(`Returns changed article`, () => expect(response.body).toEqual(expect.objectContaining(newArticle)));
-  test(`Offer is really changed`, () => request(app)
-        .get(`/articles/qpdB5W`)
-        .expect((res) => expect(res.body.title).toBe(`Test Edit`))
+  test(`Returns changed article`, () => expect(response.body).toEqual(expect.objectContaining({
+    title: newArticle.title,
+    announce: newArticle.announce,
+    fullText: newArticle.fullText,
+  })));
+  test(`Article is really changed`, () => request(app)
+        .get(`/articles/${testArticles[0].id}`)
+        .expect((res) => expect(res.body.title).toBe(newArticle.title))
   );
 });
 
 test(`API returns status code 404 when trying to change non-existent article`, () => {
-
-  const app = createAPI();
-
-  const validArticle = {
-    category: [
-      `Test Edit 1`,
-      `Test Edit 2`
-    ],
-    title: `Test Edit`,
-    announce: `Test Edit`,
-    fullText: `Test Edit`
-  };
   return request(app)
-        .put(`/articles/NOEXIST`)
-        .send(validArticle)
+        .put(`/articles/0`)
+        .send({
+          category: [categoryId],
+          title: `Test Edit Article Title With At Least 30 Symbols`,
+          announce: `Test Edit Announcement 30 symbols long at least`,
+          fullText: `Test Edit`
+        })
         .expect(HttpCode.NOT_FOUND);
 });
 
 test(`API returns status code 400 when trying to change an article with invalid data`, () => {
-
-  const app = createAPI();
-
-  const invalidArticle = {
-    category: [
-      `Test Edit 1`,
-      `Test Edit 2`
-    ],
-    title: `Test Edit`,
-    fullText: `Test Edit`
-  };
-
   return request(app)
-        .put(`/articles/qpdB5W`)
-        .send(invalidArticle)
+        .put(`/articles/${testArticles[1].id}`)
+        .send({
+          category: [categoryId],
+          title: `Test Edit Article Title With At Least 30 Symbols`,
+          fullText: `Test Edit`,
+        })
         .expect(HttpCode.BAD_REQUEST);
 });
 
 describe(`API correctly deletes an article`, () => {
 
-  const app = createAPI();
   let response;
+  let id;
 
   beforeAll(async () => {
+    id = testArticles[1].id;
     response = await request(app)
-            .delete(`/articles/qpdB5W`);
+            .delete(`/articles/${id}`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
-  test(`Returns deleted article`, () => expect(response.body.id).toBe(`qpdB5W`));
+  test(`Returns deleted article`, () => expect(response.body).toBe(`${id}`));
 });
 
-test(`API refuses to delete non-existent offer`, () => {
-
-  const app = createAPI();
-
+test(`API refuses to delete non-existent article`, () => {
   return request(app)
-        .delete(`/articles/NOEXST`)
-        .expect(HttpCode.NOT_FOUND);
+        .delete(`/articles/0`)
+        .expect(HttpCode.BAD_REQUEST);
 });
 
 describe(`API returns a list of comments to given article`, () => {
 
-  const app = createAPI();
   let response;
+  let id;
 
   beforeAll(async () => {
+    id = testArticles[0].id;
     response = await request(app)
-            .get(`/articles/rCRheV/comments`);
+            .get(`/articles/${id}/comments`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
 
-  test(`Returns list of 4 comments`, () => expect(response.body.length).toBe(4));
+  test(`Returns list of ${articlesMock[0].comments.length} comments`, () => expect(response.body.length).toBe(articlesMock[0].comments.length));
 
-  test(`First comment's id is "YA-RJA"`, () => expect(response.body[0].id).toBe(`YA-RJA`));
+  test(`First comment's text is "${articlesMock[0].comments[0].text}"`, () => expect(response.body[0].text).toBe(articlesMock[0].comments[0].text));
 
 });
-
 
 describe(`API creates a comment if data is valid`, () => {
 
   const newComment = {
     text: `Валидному комментарию достаточно этого поля`
   };
-  const app = createAPI();
   let response;
+  let id;
 
   beforeAll(async () => {
+    id = testArticles[0].id;
     response = await request(app)
-            .post(`/articles/rCRheV/comments`)
+            .post(`/articles/${id}/comments`)
             .send(newComment);
   });
 
-
   test(`Status code 201`, () => expect(response.statusCode).toBe(HttpCode.CREATED));
-
-
   test(`Returns comment created`, () => expect(response.body).toEqual(expect.objectContaining(newComment)));
-
   test(`Comments count is changed`, () => request(app)
-        .get(`/articles/rCRheV/comments`)
-        .expect((res) => expect(res.body.length).toBe(5))
+        .get(`/articles/${id}/comments`)
+        .expect((res) => expect(res.body.length).toBe(articlesMock[0].comments.length + 1))
   );
 
 });
 
 test(`API refuses to create a comment to non-existent article and returns status code 404`, () => {
-
-  const app = createAPI();
-
   return request(app)
         .post(`/articles/NOEXST/comments`)
         .send({
           text: `Неважно`
         })
-        .expect(HttpCode.NOT_FOUND);
-
+        .expect(HttpCode.BAD_REQUEST);
 });
 
 test(`API refuses to create a comment when data is invalid, and returns status code 400`, () => {
-
-  const app = createAPI();
-
   return request(app)
-        .post(`/articles/rCRheV/comments`)
+        .post(`/articles/${testArticles[0].id}/comments`)
         .send({})
         .expect(HttpCode.BAD_REQUEST);
-
 });
 
 describe(`API correctly deletes a comment`, () => {
 
-  const app = createAPI();
   let response;
+  let commentId;
+  let commentsCountPrev;
+  let articleId;
 
   beforeAll(async () => {
+    articleId = testArticles[0].id;
+    const articleComments = await request(app)
+      .get(`/articles/${articleId}/comments`);
+    commentId = articleComments.body[0].id;
+    commentsCountPrev = articleComments.body.length;
     response = await request(app)
-            .delete(`/articles/WQ89tr/comments/b2kvCP`);
+            .delete(`/articles/${articleId}/comments/${commentId}`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
-  test(`Returns comment deleted`, () => expect(response.body.id).toBe(`b2kvCP`));
-  test(`Comments count is 3 now`, () => request(app)
-        .get(`/articles/WQ89tr/comments`)
-        .expect((res) => expect(res.body.length).toBe(2))
+  test(`Returns comment deleted`, () => expect(response.body).toBe(`${commentId}`));
+  test(`Comments count is ${commentsCountPrev - 1} now`, () => request(app)
+        .get(`/articles/${articleId}/comments`)
+        .expect((res) => expect(res.body.length).toBe(commentsCountPrev - 1))
   );
 });
 
 test(`API refuses to create a comment to non-existent article and returns status code 404`, () => {
-
-  const app = createAPI();
-
   return request(app)
-        .post(`/articles/NOEXST/comments`)
+        .post(`/articles/0/comments`)
         .send({
           text: `Неважно`
         })
-        .expect(HttpCode.NOT_FOUND);
+        .expect(HttpCode.BAD_REQUEST);
 
 });
 
 test(`API refuses to delete non-existent comment`, () => {
-  const app = createAPI();
-
   return request(app)
-        .delete(`/articles/WQ89tr/comments/NOEXST`)
-        .expect(HttpCode.NOT_FOUND);
-
+        .delete(`/articles/${testArticles[0].id}/comments/0`)
+        .expect(HttpCode.BAD_REQUEST);
 });

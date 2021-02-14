@@ -13,12 +13,9 @@ POST http://localhost:3000/api/articles HTTP/1.1
 content-type: application/json
 
 {
-    "category": [
-        "Test Create 1",
-        "Test Create 2"
-    ],
-    "title": "Test Create",
-    "announce": "Test Create",
+    "category": [1],
+    "title": "Test Create Title 30 symbols long at least",
+    "announce": "Test Create Announcement 30 symbols long at least",
     "fullText": "Test Create"
 }
 
@@ -29,12 +26,9 @@ PUT http://localhost:3000/api/articles/<> HTTP/1.1
 content-type: application/json
 
 {
-    "category": [
-        "Test Edit 1",
-        "Test Edit 2"
-    ],
-    "title": "Test Edit",
-    "announce": "Test Edit",
+    "category": [2],
+    "title": "Test Edit Title 30 symbols long at least",
+    "announce": "Test Edit Announcement 30 symbols long at least",
     "fullText": "Test Edit"
 }
 
@@ -56,7 +50,7 @@ POST http://localhost:3000/api/articles/<>/comments HTTP/1.1
 content-type: application/json
 
 {
-    "text": "test test"
+    "text": "Comment Text at least 30 characters long"
 }
 
 ###
